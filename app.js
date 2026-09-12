@@ -11,6 +11,25 @@ const clearButton = document.querySelector("#clear-button");
 const clearDialog = document.querySelector("#clear-dialog");
 let items = [];
 let editingId = null;
+const storageWarning = document.querySelector("#storage-warning");
+
+function persist() {
+  try {
+    saveItems(localStorage, items);
+    storageWarning.hidden = true;
+    storageWarning.textContent = "";
+  } catch {
+    storageWarning.textContent = "Your changes are available in this tab, but couldn’t be saved. Keep this tab open or copy your list before leaving.";
+    storageWarning.hidden = false;
+  }
+}
+
+try {
+  items = loadItems(localStorage);
+} catch {
+  storageWarning.textContent = "Your saved list couldn’t be loaded. You can start a new list; your next successful change will replace the saved data.";
+  storageWarning.hidden = false;
+}
 
 const icons = {
   edit: '<path d="m13 5 6 6M4 20l5-1L21 7a2.1 2.1 0 0 0-6-3L3 16l-1 6Z"/>',
@@ -83,6 +102,7 @@ form.addEventListener("submit", (event) => {
     items.push({ id: crypto.randomUUID(), name });
   }
   resetEditor();
+  persist();
   render();
   status.textContent = `${name} ${wasEditing ? "updated" : "added to your list"}.`;
   input.focus();
@@ -112,6 +132,7 @@ list.addEventListener("click", (event) => {
     input.select();
   } else {
     items.splice(index, 1);
+    persist();
     if (editingId === item.id) resetEditor();
     render();
     status.textContent = `${item.name} deleted.`;
@@ -140,6 +161,7 @@ clearButton.addEventListener("click", () => {
 clearDialog.addEventListener("close", () => {
   if (clearDialog.returnValue !== "clear") return;
   items = [];
+  persist();
   resetEditor();
   render();
   status.textContent = "All items cleared. Ready for a fresh list.";
