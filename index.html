@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A simple grocery list for your next trip. Add, edit, and save your essentials on this device.">
+    <meta name="theme-color" content="#174d3c">
+    <title>Grocery Bud — Your shopping list</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app">
+      <header class="heading">
+        <span class="eyebrow">A LITTLE PLANNING. A FRESH START.</span>
+        <h1>Grocery Bud<span aria-hidden="true">.</span></h1>
+        <p>Your next grocery trip starts here.</p>
+      </header>
+      <section class="card" aria-labelledby="list-title">
+        <form id="grocery-form" novalidate>
+          <label for="grocery-input" id="input-label">What do you need?</label>
+          <div class="input-row">
+            <input id="grocery-input" name="grocery" type="text" placeholder="e.g. Oat milk" maxlength="120" autocomplete="off" aria-describedby="input-hint input-error">
+            <button class="primary" id="submit-button" type="submit">Add item <span aria-hidden="true">+</span></button>
+          </div>
+          <div class="form-details">
+            <span id="input-hint">One item at a time, up to 120 characters.</span>
+            <button id="cancel-edit" class="text-button" type="button" hidden>Cancel edit</button>
+          </div>
+          <p id="input-error" class="error" role="alert"></p>
+        </form>
+        <div class="list-heading">
+          <h2 id="list-title">Your shopping list <span id="item-count" class="count">0</span></h2>
+          <button id="clear-button" class="text-button danger" type="button" hidden>Clear all</button>
+        </div>
+        <ul id="grocery-list" aria-label="Grocery items"></ul>
+        <div id="empty-state" class="empty-state">
+          <span class="empty-symbol" aria-hidden="true">+</span>
+          <h3>A fresh list awaits</h3>
+          <p>Add your first item above.<br>Let’s make the next shop a little easier.</p>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <p id="storage-warning" class="storage-warning" role="alert" hidden></p>
+      </section>
+      <footer>Made for the everyday essentials.</footer>
+    </main>
+    <dialog id="clear-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+      <h2 id="dialog-title">Start with a fresh list?</h2>
+      <p id="dialog-description">This will delete all grocery items. You can’t undo this.</p>
+      <form method="dialog" class="dialog-actions">
+        <button class="secondary" value="cancel" autofocus>Keep my list</button>
+        <button class="primary destructive" value="clear">Clear all items</button>
+      </form>
+    </dialog>
+  </body>
+</html>
